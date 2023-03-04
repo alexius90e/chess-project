@@ -8,6 +8,8 @@ $lightTile: #edeed1;
   flex-wrap: wrap;
   height: $ceilSize * 8;
   width: $ceilSize * 8;
+  border-radius: 0.25rem;
+  overflow: hidden;
 
   &-tile {
     position: relative;
