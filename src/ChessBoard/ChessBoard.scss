@@ -1,0 +1,24 @@
+$ceilSize: 12vh;
+
+$darkTile: #779952;
+$lightTile: #edeed1;
+
+.chess-board {
+  display: flex;
+  flex-wrap: wrap;
+  height: $ceilSize * 8;
+  width: $ceilSize * 8;
+
+  &-tile {
+    height: $ceilSize;
+    width: $ceilSize;
+
+    &_dark {
+      background-color: $darkTile;
+    }
+
+    &_light {
+      background-color: $lightTile;
+    }
+  }
+}
