@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import './ChessBoard.scss';
 
 export const ChessBoard: FC = () => {
-  const horizontal: string[] = ['h', 'g', 'f', 'e', 'd', 'c', 'b', 'a'];
+  const horizontal: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 
-  const vertical: string[] = ['1', '2', '3', '4', '5', '6', '7', '8'];
+  const vertical: string[] = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
   return (
     <section className="chess-board">
@@ -18,7 +18,18 @@ export const ChessBoard: FC = () => {
                 ? 'chess-board-tile_light'
                 : 'chess-board-tile_dark'
             }`}
-          >{`${itemY}${itemX}`}</div>
+          >
+            {indexY === 0 && (
+              <span className="chess-board-tile__label chess-board-tile__label_horizontal">
+                {itemX}
+              </span>
+            )}
+            {indexX === vertical.length - 1 && (
+              <span className="chess-board-tile__label chess-board-tile__label_vertical">
+                {itemY}
+              </span>
+            )}
+          </div>
         ));
       })}
     </section>
