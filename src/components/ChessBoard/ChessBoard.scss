@@ -1,48 +1,10 @@
-$ceilSize: 12vh;
-
-$darkTile: #779952;
-$lightTile: #edeed1;
+$tileSize: 12vh;
 
 .chess-board {
   display: flex;
   flex-wrap: wrap;
-  height: $ceilSize * 8;
-  width: $ceilSize * 8;
+  height: $tileSize * 8;
+  width: $tileSize * 8;
   border-radius: 0.25rem;
   overflow: hidden;
-
-  &-tile {
-    position: relative;
-    height: $ceilSize;
-    width: $ceilSize;
-    padding: 0.25rem;
-    box-sizing: border-box;
-    font-size: 1.25rem;
-    font-weight: 600;
-    line-height: 1.5rem;
-
-    &_dark {
-      color: $lightTile;
-      background-color: $darkTile;
-    }
-
-    &_light {
-      color: $darkTile;
-      background-color: $lightTile;
-    }
-
-    &__label {
-      position: absolute;
-
-      &_horizontal {
-        top: 0.25rem;
-        left: 0.25rem;
-      }
-
-      &_vertical {
-        bottom: 0.25rem;
-        right: 0.5rem;
-      }
-    }
-  }
 }
