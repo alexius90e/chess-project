@@ -19,7 +19,7 @@ export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
   const hasLabelY: boolean = positionX === 0;
 
   return (
-    <div className={tileClassName}>
+    <div className={tileClassName} data-x={positionX} data-y={positionY}>
       {hasLabelY && (
         <div className="tile__label tile__label_x">{vertical[positionY]}</div>
       )}
@@ -29,7 +29,7 @@ export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
       )}
 
       {(position === 'a1' || position === 'h1') && (
-        <img className="piece-image" src="assets/wr.png" alt="wr" />
+        <img className="piece" src="assets/wr.png" alt="wr" />
       )}
     </div>
   );

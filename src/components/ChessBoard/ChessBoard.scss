@@ -1,10 +1,10 @@
-$tileSize: 12vh;
+$boardSize: 90vh;
 
 .chess-board {
   display: flex;
   flex-wrap: wrap;
-  height: $tileSize * 8;
-  width: $tileSize * 8;
+  height: $boardSize;
+  width: $boardSize;
   border-radius: 0.25rem;
   overflow: hidden;
 }
