@@ -4,7 +4,7 @@ import { BoardState } from '../models/board-state.interface';
 
 export const boardInitialState: BoardState = {
   a1: { team: PieceTeam.White, type: PieceType.Rook },
-  b1: { team: PieceTeam.White, type: PieceType.King },
+  b1: { team: PieceTeam.White, type: PieceType.Knight },
   c1: { team: PieceTeam.White, type: PieceType.Bishop },
   d1: { team: PieceTeam.White, type: PieceType.Queen },
   e1: { team: PieceTeam.White, type: PieceType.King },
@@ -60,11 +60,11 @@ export const boardInitialState: BoardState = {
   g7: { team: PieceTeam.Black, type: PieceType.Pawn },
   h7: { team: PieceTeam.Black, type: PieceType.Pawn },
   a8: { team: PieceTeam.Black, type: PieceType.Rook },
-  b8: { team: PieceTeam.Black, type: PieceType.King },
+  b8: { team: PieceTeam.Black, type: PieceType.Knight },
   c8: { team: PieceTeam.Black, type: PieceType.Bishop },
   d8: { team: PieceTeam.Black, type: PieceType.Queen },
   e8: { team: PieceTeam.Black, type: PieceType.King },
   f8: { team: PieceTeam.Black, type: PieceType.Bishop },
-  g8: { team: PieceTeam.Black, type: PieceType.King },
+  g8: { team: PieceTeam.Black, type: PieceType.Knight },
   h8: { team: PieceTeam.Black, type: PieceType.Rook },
 };
