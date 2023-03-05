@@ -1,5 +1,10 @@
 import React, { FC } from 'react';
+import { useSelector } from 'react-redux';
 import { horizontal, vertical } from '../../helpers/chess-board-lines';
+import { PieceType } from '../../models/piece-type.enum';
+import { Piece } from '../../models/piece.interface';
+import { boardSelectors } from '../../store/board/board.selectors';
+import { BoardState } from '../../store/models/board-state.interface';
 import './Tile.scss';
 
 interface TileProps {
@@ -8,7 +13,16 @@ interface TileProps {
 }
 
 export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
-  const position: string = horizontal[positionX] + vertical[positionY];
+  const board: BoardState = useSelector(boardSelectors.board);
+
+  const position: keyof BoardState = (horizontal[positionX] +
+    vertical[positionY]) as keyof BoardState;
+
+  const piece: Piece | null = board[position];
+
+  const pieceClassName = `piece piece-${convertPieceTypeToName(piece?.type)}-${
+    piece?.team ? 'black' : 'white'
+  }`;
 
   const isDark: boolean = (positionX + positionY) % 2 === 0;
 
@@ -18,36 +32,27 @@ export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
 
   const hasLabelY: boolean = positionX === 0;
 
-  const isKingW = position === 'e1';
-
-  const isQueenW = position === 'd1';
-
-  const isRookW = ['a1', 'h1'].includes(position);
-
-  const isBishopW = ['c1', 'f1'].includes(position);
-
-  const isKnightW = ['b1', 'g1'].includes(position);
-
-  const isPawnW = ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'].includes(
-    position
-  );
-
-  const isKingB = position === 'e8';
-
-  const isQueenB = position === 'd8';
-
-  const isRookB = ['a8', 'h8'].includes(position);
-
-  const isBishopB = ['c8', 'f8'].includes(position);
-
-  const isKnightB = ['b8', 'g8'].includes(position);
-
-  const isPawnB = ['a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7'].includes(
-    position
-  );
+  function convertPieceTypeToName(type: PieceType | undefined): string {
+    switch (type) {
+      case PieceType.King:
+        return 'king';
+      case PieceType.Queen:
+        return 'queen';
+      case PieceType.Rook:
+        return 'rook';
+      case PieceType.Bishop:
+        return 'bishop';
+      case PieceType.Knight:
+        return 'knight';
+      default:
+        return 'pawn';
+    }
+  }
 
   return (
     <div className={tileClassName} data-x={positionX} data-y={positionY}>
+      {piece && <div className={pieceClassName}></div>}
+
       {hasLabelY && (
         <div className="tile__label tile__label_x">{vertical[positionY]}</div>
       )}
@@ -55,31 +60,6 @@ export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
       {hasLabelX && (
         <div className="tile__label tile__label_y">{horizontal[positionX]}</div>
       )}
-
-      {isKingW && <div className="piece piece-king-white"></div>}
-
-      {isQueenW && <div className="piece piece-queen-white"></div>}
-
-      {isRookW && <div className="piece piece-rook-white"></div>}
-
-      {isBishopW && <div className="piece piece-bishop-white"></div>}
-
-      {isKnightW && <div className="piece piece-knight-white"></div>}
-
-      {isPawnW && <div className="piece piece-pawn-white"></div>}
-
-      {isKingB && <div className="piece piece-king-black"></div>}
-
-      {isQueenB && <div className="piece piece-queen-black"></div>}
-
-      {isRookB && <div className="piece piece-rook-black"></div>}
-
-      {isBishopB && <div className="piece piece-bishop-black"></div>}
-
-      {isKnightB && <div className="piece piece-knight-black"></div>}
-
-      {isPawnB && <div className="piece piece-pawn-black"></div>}
-      
     </div>
   );
 };
