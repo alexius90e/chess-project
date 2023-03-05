@@ -20,12 +20,12 @@ const pawns: Piece[] = [...whitePawnIds, ...blacPawnIds].map(
 
 const kings: Piece[] = ['e1', 'e8'].map((id: string): Piece => {
   const team: PieceTeam = getPieceTeamById(id, '1');
-  return { id, team, name: 'rook', type: PieceType.King };
+  return { id, team, name: 'king', type: PieceType.King };
 });
 
 const queens: Piece[] = ['d1', 'd8'].map((id: string): Piece => {
   const team: PieceTeam = getPieceTeamById(id, '1');
-  return { id, team, name: 'rook', type: PieceType.Queen };
+  return { id, team, name: 'queen', type: PieceType.Queen };
 });
 
 const rooks: Piece[] = ['a1', 'h1', 'a8', 'h8'].map((id: string): Piece => {
