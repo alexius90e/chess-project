@@ -1,12 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
+import { Piece } from '../../models/piece.interface';
 import { boardInitialState } from './board-initial-state';
+
+export const boardEntityAdapter = createEntityAdapter<Piece>({
+  selectId: (piece) => piece.id,
+});
 
 export const boardSlice = createSlice({
   name: 'board',
-  initialState: {
-    board: boardInitialState,
+  initialState: boardEntityAdapter.getInitialState({}),
+  reducers: {
+    initBoard(state) {
+      boardEntityAdapter.removeAll(state);
+      boardEntityAdapter.setAll(state, boardInitialState);
+    },
   },
-  reducers: {},
 });
 
 export const boardActions = boardSlice.actions;

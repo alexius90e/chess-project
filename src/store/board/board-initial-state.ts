@@ -1,70 +1,53 @@
 import { PieceTeam } from '../../models/piece-team.enum';
 import { PieceType } from '../../models/piece-type.enum';
-import { BoardState } from '../models/board-state.interface';
+import { Piece } from '../../models/piece.interface';
 
-export const boardInitialState: BoardState = {
-  a1: { team: PieceTeam.White, type: PieceType.Rook },
-  b1: { team: PieceTeam.White, type: PieceType.Knight },
-  c1: { team: PieceTeam.White, type: PieceType.Bishop },
-  d1: { team: PieceTeam.White, type: PieceType.Queen },
-  e1: { team: PieceTeam.White, type: PieceType.King },
-  f1: { team: PieceTeam.White, type: PieceType.Bishop },
-  g1: { team: PieceTeam.White, type: PieceType.Knight },
-  h1: { team: PieceTeam.White, type: PieceType.Rook },
-  a2: { team: PieceTeam.White, type: PieceType.Pawn },
-  b2: { team: PieceTeam.White, type: PieceType.Pawn },
-  c2: { team: PieceTeam.White, type: PieceType.Pawn },
-  d2: { team: PieceTeam.White, type: PieceType.Pawn },
-  e2: { team: PieceTeam.White, type: PieceType.Pawn },
-  f2: { team: PieceTeam.White, type: PieceType.Pawn },
-  g2: { team: PieceTeam.White, type: PieceType.Pawn },
-  h2: { team: PieceTeam.White, type: PieceType.Pawn },
-  a3: null,
-  b3: null,
-  c3: null,
-  d3: null,
-  e3: null,
-  f3: null,
-  g3: null,
-  h3: null,
-  a4: null,
-  b4: null,
-  c4: null,
-  d4: null,
-  e4: null,
-  f4: null,
-  g4: null,
-  h4: null,
-  a5: null,
-  b5: null,
-  c5: null,
-  d5: null,
-  e5: null,
-  f5: null,
-  g5: null,
-  h5: null,
-  a6: null,
-  b6: null,
-  c6: null,
-  d6: null,
-  e6: null,
-  f6: null,
-  g6: null,
-  h6: null,
-  a7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  b7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  c7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  d7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  e7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  f7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  g7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  h7: { team: PieceTeam.Black, type: PieceType.Pawn },
-  a8: { team: PieceTeam.Black, type: PieceType.Rook },
-  b8: { team: PieceTeam.Black, type: PieceType.Knight },
-  c8: { team: PieceTeam.Black, type: PieceType.Bishop },
-  d8: { team: PieceTeam.Black, type: PieceType.Queen },
-  e8: { team: PieceTeam.Black, type: PieceType.King },
-  f8: { team: PieceTeam.Black, type: PieceType.Bishop },
-  g8: { team: PieceTeam.Black, type: PieceType.Knight },
-  h8: { team: PieceTeam.Black, type: PieceType.Rook },
-};
+function getPieceTeamById(id: string, teamMark: '1' | '2'): PieceTeam {
+  const regExp = new RegExp(`[a-h][${teamMark}]`, 'g');
+  return id.match(regExp) ? PieceTeam.White : PieceTeam.Black;
+}
+
+const whitePawnIds = ['a2', 'b2', 'c2', 'd2', 'e2', 'f2', 'g2', 'h2'];
+
+const blacPawnIds = ['a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7'];
+
+const pawns: Piece[] = [...whitePawnIds, ...blacPawnIds].map(
+  (id: string): Piece => {
+    const team: PieceTeam = getPieceTeamById(id, '2');
+    return { id, team, name: 'pawn', type: PieceType.Pawn };
+  }
+);
+
+const kings: Piece[] = ['e1', 'e8'].map((id: string): Piece => {
+  const team: PieceTeam = getPieceTeamById(id, '1');
+  return { id, team, name: 'rook', type: PieceType.King };
+});
+
+const queens: Piece[] = ['d1', 'd8'].map((id: string): Piece => {
+  const team: PieceTeam = getPieceTeamById(id, '1');
+  return { id, team, name: 'rook', type: PieceType.Queen };
+});
+
+const rooks: Piece[] = ['a1', 'h1', 'a8', 'h8'].map((id: string): Piece => {
+  const team: PieceTeam = getPieceTeamById(id, '1');
+  return { id, team, name: 'rook', type: PieceType.Rook };
+});
+
+const knights: Piece[] = ['b1', 'g1', 'b8', 'g8'].map((id: string): Piece => {
+  const team: PieceTeam = getPieceTeamById(id, '1');
+  return { id, team, name: 'knight', type: PieceType.Knight };
+});
+
+const bishops: Piece[] = ['c1', 'f1', 'c8', 'f8'].map((id: string): Piece => {
+  const team: PieceTeam = getPieceTeamById(id, '1');
+  return { id, team, name: 'bishop', type: PieceType.Bishop };
+});
+
+export const boardInitialState: Piece[] = [
+  ...kings,
+  ...queens,
+  ...rooks,
+  ...knights,
+  ...bishops,
+  ...pawns,
+];

@@ -1,10 +1,12 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { RootState } from '../store';
+import { boardEntityAdapter } from './board.slice';
 
 const boardState = (state: RootState) => state.board;
 
-const board = createSelector(boardState, (state) => {
-  return state.board;
-});
+const { selectById } = boardEntityAdapter.getSelectors();
 
-export const boardSelectors = { board };
+const pieceById = (id: string) =>
+  createSelector(boardState, (state) => selectById(state, id));
+
+export const boardSelectors = { pieceById };

@@ -3,23 +3,16 @@ import { useSelector } from 'react-redux';
 import { horizontal, vertical } from '../../helpers/chess-board-lines';
 import { Piece } from '../../models/piece.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
-import { BoardState } from '../../store/models/board-state.interface';
 import { ChessPiece } from '../ChessPiece/ChessPiece';
 import './Tile.scss';
 
 interface TileProps {
+  id: string;
   positionX: number;
   positionY: number;
 }
 
-export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
-  const board: BoardState = useSelector(boardSelectors.board);
-
-  const position: keyof BoardState = (horizontal[positionX] +
-    vertical[positionY]) as keyof BoardState;
-
-  const piece: Piece | null = board[position];
-
+export const Tile: FC<TileProps> = ({ id, positionX, positionY }) => {
   const isDark: boolean = (positionX + positionY) % 2 === 0;
 
   const tileClassName: string = `tile ${isDark ? 'tile_light' : 'tile_dark'}`;
@@ -28,17 +21,15 @@ export const Tile: FC<TileProps> = ({ positionX, positionY }) => {
 
   const hasLabelY: boolean = positionX === 0;
 
+  const piece: Piece | undefined = useSelector(boardSelectors.pieceById(id));
+
   return (
     <div className={tileClassName} data-x={positionX} data-y={positionY}>
       {piece && <ChessPiece piece={piece} />}
 
-      {hasLabelY && (
-        <div className="tile__label tile__label_x">{vertical[positionY]}</div>
-      )}
+      {hasLabelY && <div className="tile-label_x">{vertical[positionY]}</div>}
 
-      {hasLabelX && (
-        <div className="tile__label tile__label_y">{horizontal[positionX]}</div>
-      )}
+      {hasLabelX && <div className="tile-label_y">{horizontal[positionX]}</div>}
     </div>
   );
 };

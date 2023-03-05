@@ -25,10 +25,13 @@ $lightTile: #edeed1;
     background-color: $lightTile;
   }
 
-  &__label {
+  &-label_x,
+  &-label_y {
     position: absolute;
     user-select: none;
+  }
 
+  &-label {
     &_x {
       top: 0.25rem;
       left: 0.25rem;
