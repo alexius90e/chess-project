@@ -9,4 +9,6 @@ const { selectById } = boardEntityAdapter.getSelectors();
 const pieceById = (id: string) =>
   createSelector(boardState, (state) => selectById(state, id));
 
-export const boardSelectors = { pieceById };
+const activePiece = createSelector(boardState, (state) => state.activePiece);
+
+export const boardSelectors = { pieceById, activePiece };

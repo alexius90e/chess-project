@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { horizontal, vertical } from '../../helpers/chess-board-lines';
 import { Piece } from '../../models/piece.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
+import { boardActions } from '../../store/board/board.slice';
 import { ChessPiece } from '../ChessPiece/ChessPiece';
 import './Tile.scss';
 
@@ -23,8 +24,17 @@ export const Tile: FC<TileProps> = ({ id, positionX, positionY }) => {
 
   const piece: Piece | undefined = useSelector(boardSelectors.pieceById(id));
 
+  const dispatch = useDispatch();
+
+  function handlePointerUp(e: React.MouseEvent) {
+    const element = e.target as HTMLElement;
+    const targetId = element.dataset.id;
+    targetId && dispatch(boardActions.moveActivePiece({ targetId }));
+    console.log('handlePointerUp');
+  }
+
   return (
-    <div className={tileClassName} data-x={positionX} data-y={positionY}>
+    <div className={tileClassName} onPointerUp={handlePointerUp} data-id={id}>
       {piece && <ChessPiece piece={piece} />}
 
       {hasLabelY && <div className="tile-label_x">{vertical[positionY]}</div>}
