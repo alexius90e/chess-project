@@ -11,4 +11,16 @@ const pieceById = (id: string) =>
 
 const activePiece = createSelector(boardState, (state) => state.activePiece);
 
-export const boardSelectors = { pieceById, activePiece };
+const isWhiteSide = createSelector(boardState, (state) => state.isWhiteSide);
+
+const boardAxes = createSelector(boardState, (state) => ({
+  rows: state.isWhiteSide ? state.rows : [...state.rows].reverse(),
+  columns: state.isWhiteSide ? state.columns : [...state.columns].reverse(),
+}));
+
+export const boardSelectors = {
+  pieceById,
+  activePiece,
+  isWhiteSide,
+  boardAxes,
+};

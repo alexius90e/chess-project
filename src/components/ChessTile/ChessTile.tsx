@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { horizontal, vertical } from '../../helpers/chess-board-lines';
 import { Piece } from '../../models/piece.interface';
 import { Tile } from '../../models/tyle.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
@@ -15,11 +14,13 @@ interface TileProps {
 export const ChessTile: FC<TileProps> = ({ tile }) => {
   const { id, positionX, positionY } = tile;
 
+  const { rows, columns } = useSelector(boardSelectors.boardAxes);
+
   const isDark: boolean = (positionX + positionY) % 2 === 0;
 
   const tileClassName: string = `tile ${isDark ? 'tile_light' : 'tile_dark'}`;
 
-  const hasLabelX: boolean = positionY === vertical.length - 1;
+  const hasLabelX: boolean = positionY === rows.length - 1;
 
   const hasLabelY: boolean = positionX === 0;
 
@@ -38,9 +39,9 @@ export const ChessTile: FC<TileProps> = ({ tile }) => {
     <div className={tileClassName} onPointerUp={handlePointerUp} data-id={id}>
       {piece && <ChessPiece piece={piece} />}
 
-      {hasLabelY && <div className="tile-label_x">{vertical[positionY]}</div>}
+      {hasLabelY && <div className="tile-label_x">{rows[positionY]}</div>}
 
-      {hasLabelX && <div className="tile-label_y">{horizontal[positionX]}</div>}
+      {hasLabelX && <div className="tile-label_y">{columns[positionX]}</div>}
     </div>
   );
 };
