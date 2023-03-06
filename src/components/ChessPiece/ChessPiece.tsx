@@ -5,30 +5,28 @@ import { boardSelectors } from '../../store/board/board.selectors';
 import { boardActions } from '../../store/board/board.slice';
 import './ChessPiece.scss';
 
-interface PieceProps {
+interface ChessPieceProps {
   piece: Piece;
 }
 
-export const ChessPiece: FC<PieceProps> = ({ piece }) => {
-  const pieceTeamName = piece.team ? 'black' : 'white';
+export const ChessPiece: FC<ChessPieceProps> = ({ piece }) => {
+  const pieceTeamName: string = piece.team ? 'black' : 'white';
 
-  const pieceClassName = `chess-piece chess-piece-${piece.name}-${pieceTeamName}`;
+  const pieceClassName: string = `chess-piece chess-piece-${piece.name}-${pieceTeamName}`;
 
-  const activePiece = useSelector(boardSelectors.activePiece);
+  const activePiece: Piece | null = useSelector(boardSelectors.activePiece);
 
   const dispatch = useDispatch();
 
-  function handlePointerDown(): void {
+  function handleClick(): void {
     const isTheSamePiece = activePiece !== null && activePiece.id === piece.id;
-
-    dispatch(boardActions.setActivePiece(isTheSamePiece ? null : piece));
+    if (isTheSamePiece) dispatch(boardActions.resetActivePiece());
+    if (activePiece !== null && activePiece.team !== piece.team) {
+      dispatch(boardActions.attackPiece(piece));
+    } else {
+      dispatch(boardActions.setActivePiece(piece));
+    }
   }
 
-  return (
-    <div
-      className={pieceClassName}
-      data-id={piece.id}
-      onPointerDown={handlePointerDown}
-    ></div>
-  );
+  return <div className={pieceClassName} onClick={handleClick}></div>;
 };

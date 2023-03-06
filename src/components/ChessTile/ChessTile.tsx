@@ -16,9 +16,17 @@ export const ChessTile: FC<TileProps> = ({ tile }) => {
 
   const { rows, columns } = useSelector(boardSelectors.boardAxes);
 
-  const isDark: boolean = (positionX + positionY) % 2 === 0;
+  const activePiece: Piece | null = useSelector(boardSelectors.activePiece);
 
-  const tileClassName: string = `tile ${isDark ? 'tile_light' : 'tile_dark'}`;
+  const tileActiveClass: string =
+    activePiece !== null && activePiece.id === id ? 'active' : '';
+
+  const tileColorClass: string =
+    (positionX + positionY) % 2 === 0 ? 'tile_light' : 'tile_dark';
+
+  const tileClassList: string[] = ['tile', tileColorClass, tileActiveClass];
+
+  const tileClassName: string = tileClassList.join(' ');
 
   const hasLabelX: boolean = positionY === rows.length - 1;
 
@@ -28,15 +36,14 @@ export const ChessTile: FC<TileProps> = ({ tile }) => {
 
   const dispatch = useDispatch();
 
-  function handlePointerUp(e: React.MouseEvent) {
+  function handleClick(e: React.MouseEvent): void {
     const element = e.target as HTMLElement;
-    const targetId = element.dataset.id;
-    targetId && dispatch(boardActions.moveActivePiece({ targetId }));
-    console.log('handlePointerUp');
+    const isTile = element.classList.contains('tile');
+    if (isTile) dispatch(boardActions.moveActivePiece({ targetId: id }));
   }
 
   return (
-    <div className={tileClassName} onPointerUp={handlePointerUp} data-id={id}>
+    <div className={tileClassName} onClick={handleClick}>
       {piece && <ChessPiece piece={piece} />}
 
       {hasLabelY && <div className="tile-label_x">{rows[positionY]}</div>}

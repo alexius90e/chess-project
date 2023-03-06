@@ -1,7 +1,9 @@
 $tileSize: 12.5%;
 
-$darkTile: #779952;
 $lightTile: #edeed1;
+$lightTileHighlight: #f6f669;
+$darkTile: #779952;
+$darkTileHighlight: #baca2b;
 
 .tile {
   position: relative;
@@ -18,11 +20,19 @@ $lightTile: #edeed1;
   &_dark {
     color: $lightTile;
     background-color: $darkTile;
+
+    &.active {
+      background-color: $darkTileHighlight;
+    }
   }
 
   &_light {
     color: $darkTile;
     background-color: $lightTile;
+
+    &.active {
+      background-color: $lightTileHighlight;
+    }
   }
 
   &-label_x,
