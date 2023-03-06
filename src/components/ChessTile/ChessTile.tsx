@@ -2,18 +2,19 @@ import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { horizontal, vertical } from '../../helpers/chess-board-lines';
 import { Piece } from '../../models/piece.interface';
+import { Tile } from '../../models/tyle.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
 import { boardActions } from '../../store/board/board.slice';
 import { ChessPiece } from '../ChessPiece/ChessPiece';
-import './Tile.scss';
+import './ChessTile.scss';
 
 interface TileProps {
-  id: string;
-  positionX: number;
-  positionY: number;
+  tile: Tile;
 }
 
-export const Tile: FC<TileProps> = ({ id, positionX, positionY }) => {
+export const ChessTile: FC<TileProps> = ({ tile }) => {
+  const { id, positionX, positionY } = tile;
+
   const isDark: boolean = (positionX + positionY) % 2 === 0;
 
   const tileClassName: string = `tile ${isDark ? 'tile_light' : 'tile_dark'}`;

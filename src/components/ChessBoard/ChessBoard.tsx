@@ -1,8 +1,9 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { horizontal, vertical } from '../../helpers/chess-board-lines';
+import { Tile } from '../../models/tyle.interface';
 import { boardActions } from '../../store/board/board.slice';
-import { Tile } from '../Tile/Tile';
+import { ChessTile } from '../ChessTile/ChessTile';
 import './ChessBoard.scss';
 
 export const ChessBoard: FC = () => {
@@ -12,14 +13,24 @@ export const ChessBoard: FC = () => {
     dispatch(boardActions.initBoard());
   }, [dispatch]);
 
+  const tiles: Tile[] = useMemo(
+    () =>
+      vertical
+        .map((itemY, positionY) =>
+          horizontal.map((itemX, positionX) => {
+            const id: string = itemX + itemY;
+            return { id, positionX, positionY };
+          })
+        )
+        .flat(),
+    []
+  );
+
   return (
     <section className="chess-board">
-      {vertical.map((itemY, indexY) =>
-        horizontal.map((itemX, indexX) => {
-          const id: string = itemX + itemY;
-          return <Tile key={id} id={id} positionX={indexX} positionY={indexY} />;
-        })
-      )}
+      {tiles.map((tile) => (
+        <ChessTile key={tile.id} tile={tile} />
+      ))}
     </section>
   );
 };
