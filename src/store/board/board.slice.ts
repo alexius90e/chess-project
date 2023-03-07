@@ -11,7 +11,7 @@ import { boardInitialState } from './board-initial-state';
 interface BoardSliceState {
   activePiece: Piece | null;
   isBoardFlipped: boolean;
-  isWhiteMove: boolean;
+  currentTeam: PieceTeam;
   columns: string[];
   rows: string[];
   availableToMove: string[];
@@ -26,7 +26,7 @@ const initialState: EntityState<Piece> & BoardSliceState =
   boardEntityAdapter.getInitialState({
     activePiece: null,
     isBoardFlipped: false,
-    isWhiteMove: true,
+    currentTeam: PieceTeam.White,
     columns: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
     rows: ['8', '7', '6', '5', '4', '3', '2', '1'],
     availableToMove: [],
@@ -48,12 +48,7 @@ export const boardSlice = createSlice({
       state.isBoardFlipped = !state.isBoardFlipped;
     },
     setActivePiece(state, action: PayloadAction<Piece>) {
-      const piece: Piece = action.payload;
-      const isWhiteMove = state.isWhiteMove;
-      if (
-        (isWhiteMove && piece.team === PieceTeam.Black) ||
-        (!isWhiteMove && piece.team === PieceTeam.White)
-      ) {
+      if (state.currentTeam !== action.payload.team) {
         state.availableToMove = [];
         state.availableToAttack = [];
         return;
@@ -67,17 +62,16 @@ export const boardSlice = createSlice({
     },
     moveActivePiece(state, action: PayloadAction<{ targetId: string }>) {
       const { targetId } = action.payload;
-      const { activePiece, isWhiteMove } = state;
+      const { activePiece, currentTeam } = state;
       if (!activePiece) return;
       if (targetId === activePiece.id) return;
-      if (isWhiteMove && activePiece.team === PieceTeam.Black) return;
-      if (!isWhiteMove && activePiece.team === PieceTeam.White) return;
+      if (currentTeam !== activePiece.team) return;
       boardEntityAdapter.removeOne(state, activePiece.id);
       boardEntityAdapter.setOne(state, { ...activePiece, id: targetId });
       state.activePiece = null;
       state.availableToMove = [];
       state.availableToAttack = [];
-      state.isWhiteMove = !state.isWhiteMove;
+      state.currentTeam = Number(!Boolean(state.currentTeam));
     },
     attackByActivePiece(state, action: PayloadAction<Piece>) {
       if (!state.activePiece) return;
@@ -88,7 +82,7 @@ export const boardSlice = createSlice({
       state.activePiece = null;
       state.availableToMove = [];
       state.availableToAttack = [];
-      state.isWhiteMove = !state.isWhiteMove;
+      state.currentTeam = Number(!Boolean(state.currentTeam));
     },
     setAvailableToMove(state, action: PayloadAction<string[]>) {
       state.availableToMove = action.payload;
