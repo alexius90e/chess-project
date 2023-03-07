@@ -2,12 +2,8 @@ $tileSize: 12.5%;
 
 $lightTile: #edeed1;
 $lightTileHighlight: #f6f669;
-$lightTileAvailable: #ffffc6;
-$lightTileAttacked: #f66969;
 $darkTile: #779952;
 $darkTileHighlight: #baca2b;
-$darkTileAvailable: #88af5e;
-$darkTileAttacked: #995252;
 
 .tile {
   position: relative;
@@ -21,20 +17,35 @@ $darkTileAttacked: #995252;
   font-size: 1.125rem;
   line-height: 1.25rem;
 
+  &.available::before {
+    position: absolute;
+    z-index: 5;
+    content: '';
+    width: 36%;
+    height: 36%;
+    background-color: rgba($color: #000000, $alpha: 0.1);
+    border-radius: 10rem;
+  }
+
+  &.attacked::before {
+    position: absolute;
+    z-index: 5;
+    content: '';
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-width: 0.5rem;
+    border-style: solid;
+    border-color: rgba($color: #000000, $alpha: 0.1);
+    border-radius: 10rem;
+  }
+
   &_dark {
     color: $lightTile;
     background-color: $darkTile;
 
     &.active {
       background-color: $darkTileHighlight;
-    }
-
-    &.available {
-      background-color: $darkTileAvailable;
-    }
-
-    &.attacked {
-      background-color: $darkTileAttacked;
     }
   }
 
@@ -44,14 +55,6 @@ $darkTileAttacked: #995252;
 
     &.active {
       background-color: $lightTileHighlight;
-    }
-
-    &.available {
-      background-color: $lightTileAvailable;
-    }
-
-    &.attacked {
-      background-color: $lightTileAttacked;
     }
   }
 

@@ -29,8 +29,8 @@ export const Pawn: FC<PawnProps> = ({ piece }) => {
       dispatch(boardActions.attackByActivePiece(piece));
     } else {
       dispatch(boardActions.setActivePiece(piece));
-      // dispatch(boardActions.setAvailableToAttack(checkAvailableAttack()));
-      // dispatch(boardActions.setAvailableToMove(checkAvailableMoves()));
+      dispatch(boardActions.setAvailableToAttack(checkAvailableAttack()));
+      dispatch(boardActions.setAvailableToMove(checkAvailableMoves()));
     }
   }
 
