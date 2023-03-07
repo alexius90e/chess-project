@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PieceProps } from '../../models/piece-props.interface';
 import { PieceType } from '../../models/piece-type.enum';
 import { Piece } from '../../models/piece.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
@@ -7,11 +8,7 @@ import { boardActions } from '../../store/board/board.slice';
 import { Pawn } from '../Pawn/Pawn';
 import './ChessPiece.scss';
 
-interface ChessPieceProps {
-  piece: Piece;
-}
-
-export const ChessPiece: FC<ChessPieceProps> = ({ piece }) => {
+export const ChessPiece: FC<PieceProps> = ({ piece }) => {
   const pieceTeamName: string = piece.team ? 'black' : 'white';
 
   const pieceClassName: string = `chess-piece chess-piece-${piece.name}-${pieceTeamName}`;

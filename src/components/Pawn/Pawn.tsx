@@ -1,16 +1,14 @@
 import React, { FC } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { PieceProps } from '../../models/piece-props.interface';
 import { PieceTeam } from '../../models/piece-team.enum';
 import { Piece } from '../../models/piece.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
 import { boardActions } from '../../store/board/board.slice';
 import './Pawn.scss';
 
-interface PawnProps {
-  piece: Piece;
-}
 
-export const Pawn: FC<PawnProps> = ({ piece }) => {
+export const Pawn: FC<PieceProps> = ({ piece }) => {
   const pawnTeamName: string = piece.team ? 'black' : 'white';
 
   const pieceClassName: string = `pawn pawn-${pawnTeamName}`;
