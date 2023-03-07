@@ -1,6 +1,6 @@
 import { Piece } from './piece.interface';
 
-export interface PieceActive {
+export interface PieceActiveData {
   piece: Piece;
   moves: string[];
   attacks: string[];

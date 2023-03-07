@@ -6,4 +6,5 @@ export interface Piece {
   name: string;
   type: PieceType;
   team: PieceTeam;
+  isFirstMove: Boolean;
 }

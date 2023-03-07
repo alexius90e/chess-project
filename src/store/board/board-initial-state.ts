@@ -22,9 +22,10 @@ function getPieceTeamById(id: string, type: PieceType): PieceTeam {
 
 function generatePieces(ids: string[], type: PieceType): Piece[] {
   const name = pieceNames[type];
+  const isFirstMove = true;
   return ids.map((id: string): Piece => {
     const team: PieceTeam = getPieceTeamById(id, type);
-    return { id, team, name, type };
+    return { id, team, name, type, isFirstMove };
   });
 }
 
@@ -40,7 +41,7 @@ const bishops: Piece[] = generatePieces(pieceIds.bishops, PieceType.Bishop);
 
 const pawns: Piece[] = generatePieces(
   [...pieceIds.whitePawns, ...pieceIds.blackPawns],
-  PieceType.Pawn
+  PieceType.Pawn,
 );
 
 export const boardInitialState: Piece[] = [

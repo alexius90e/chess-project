@@ -16,20 +16,22 @@ export const ChessPiece: FC<ChessPieceProps> = ({ piece }) => {
 
   const pieceClassName: string = `chess-piece chess-piece-${piece.name}-${pieceTeamName}`;
 
-  const activePiece: Piece | null = useSelector(boardSelectors.activePiece);
+  const activePiece: Piece | undefined = useSelector(boardSelectors.activePiece);
 
   const isPawn: boolean = piece.type === PieceType.Pawn;
 
   const dispatch = useDispatch();
 
   function handleClick(): void {
-    const isTheSamePiece = activePiece !== null && activePiece.id === piece.id;
+    const isTheSamePiece = activePiece && activePiece.id === piece.id;
+    const isUnderAttack = activePiece && activePiece.team !== piece.team;
+
     if (isTheSamePiece) {
       dispatch(boardActions.resetActivePiece());
-    } else if (activePiece !== null && activePiece.team !== piece.team) {
+    } else if (isUnderAttack) {
       dispatch(boardActions.attackByActivePiece(piece));
     } else {
-      dispatch(boardActions.setActivePiece(piece));
+      dispatch(boardActions.setActivePiece({ piece, moves: [], attacks: [] }));
     }
   }
 

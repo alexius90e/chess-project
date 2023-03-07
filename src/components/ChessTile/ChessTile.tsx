@@ -16,36 +16,18 @@ export const ChessTile: FC<TileProps> = ({ tile }) => {
 
   const { rows, columns } = useSelector(boardSelectors.boardAxes);
 
-  const activePiece: Piece | null = useSelector(boardSelectors.activePiece);
+  const activePiece: Piece | undefined = useSelector(boardSelectors.activePiece);
 
-  const availableTileIds: string[] = useSelector(
-    boardSelectors.availableToMove
-  );
+  const availableTileIds: string[] = useSelector(boardSelectors.availableToMove);
 
-  const attackedTileIds: string[] = useSelector(
-    boardSelectors.availableToAttack
-  );
-
-  const tileAttackedClass: string = attackedTileIds.includes(id)
-    ? 'attacked'
-    : '';
-
-  const tileAvailableClass: string = availableTileIds.includes(id)
-    ? 'available'
-    : '';
-
-  const tileActiveClass: string =
-    activePiece !== null && activePiece.id === id ? 'active' : '';
-
-  const tileColorClass: string =
-    (positionX + positionY) % 2 === 0 ? 'tile_light' : 'tile_dark';
+  const attackedTileIds: string[] = useSelector(boardSelectors.availableToAttack);
 
   const tileClassList: string[] = [
     'tile',
-    tileColorClass,
-    tileActiveClass,
-    tileAttackedClass,
-    tileAvailableClass,
+    attackedTileIds.includes(id) ? 'attacked' : '',
+    availableTileIds.includes(id) ? 'available' : '',
+    activePiece && activePiece.id === id ? 'active' : '',
+    (positionX + positionY) % 2 === 0 ? 'tile_light' : 'tile_dark',
   ];
 
   const tileClassName: string = tileClassList.join(' ');
