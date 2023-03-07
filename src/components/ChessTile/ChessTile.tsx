@@ -18,13 +18,35 @@ export const ChessTile: FC<TileProps> = ({ tile }) => {
 
   const activePiece: Piece | null = useSelector(boardSelectors.activePiece);
 
+  const availableTileIds: string[] = useSelector(
+    boardSelectors.availableToMove
+  );
+
+  const attackedTileIds: string[] = useSelector(
+    boardSelectors.availableToAttack
+  );
+
+  const tileAttackedClass: string = attackedTileIds.includes(id)
+    ? 'attacked'
+    : '';
+
+  const tileAvailableClass: string = availableTileIds.includes(id)
+    ? 'available'
+    : '';
+
   const tileActiveClass: string =
     activePiece !== null && activePiece.id === id ? 'active' : '';
 
   const tileColorClass: string =
     (positionX + positionY) % 2 === 0 ? 'tile_light' : 'tile_dark';
 
-  const tileClassList: string[] = ['tile', tileColorClass, tileActiveClass];
+  const tileClassList: string[] = [
+    'tile',
+    tileColorClass,
+    tileActiveClass,
+    tileAttackedClass,
+    tileAvailableClass,
+  ];
 
   const tileClassName: string = tileClassList.join(' ');
 

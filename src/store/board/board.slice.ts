@@ -10,10 +10,12 @@ import { boardInitialState } from './board-initial-state';
 
 interface BoardSliceState {
   activePiece: Piece | null;
-  isWhiteSide: boolean;
+  isBoardFlipped: boolean;
   isWhiteMove: boolean;
   columns: string[];
   rows: string[];
+  availableToMove: string[];
+  availableToAttack: string[];
 }
 
 export const boardEntityAdapter = createEntityAdapter<Piece>({
@@ -23,10 +25,12 @@ export const boardEntityAdapter = createEntityAdapter<Piece>({
 const initialState: EntityState<Piece> & BoardSliceState =
   boardEntityAdapter.getInitialState({
     activePiece: null,
-    isWhiteSide: true,
+    isBoardFlipped: false,
     isWhiteMove: true,
     columns: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
     rows: ['8', '7', '6', '5', '4', '3', '2', '1'],
+    availableToMove: [],
+    availableToAttack: [],
   });
 
 export const boardSlice = createSlice({
@@ -37,21 +41,29 @@ export const boardSlice = createSlice({
       boardEntityAdapter.removeAll(state);
       boardEntityAdapter.setAll(state, boardInitialState);
     },
-    setIsWhiteSide(state, action: PayloadAction<boolean>): void {
-      state.isWhiteSide = action.payload;
+    setBoardDirection(state, action: PayloadAction<boolean>): void {
+      state.isBoardFlipped = action.payload;
     },
-    reverseBoard(state): void {
-      state.isWhiteSide = !state.isWhiteSide;
+    changeBoardDirection(state): void {
+      state.isBoardFlipped = !state.isBoardFlipped;
     },
     setActivePiece(state, action: PayloadAction<Piece>) {
       const piece: Piece = action.payload;
       const isWhiteMove = state.isWhiteMove;
-      if (isWhiteMove && piece.team === PieceTeam.Black) return;
-      if (!isWhiteMove && piece.team === PieceTeam.White) return;
+      if (
+        (isWhiteMove && piece.team === PieceTeam.Black) ||
+        (!isWhiteMove && piece.team === PieceTeam.White)
+      ) {
+        state.availableToMove = [];
+        state.availableToAttack = [];
+        return;
+      }
       state.activePiece = action.payload;
     },
     resetActivePiece(state) {
       state.activePiece = null;
+      state.availableToMove = [];
+      state.availableToAttack = [];
     },
     moveActivePiece(state, action: PayloadAction<{ targetId: string }>) {
       const { targetId } = action.payload;
@@ -63,16 +75,26 @@ export const boardSlice = createSlice({
       boardEntityAdapter.removeOne(state, activePiece.id);
       boardEntityAdapter.setOne(state, { ...activePiece, id: targetId });
       state.activePiece = null;
+      state.availableToMove = [];
+      state.availableToAttack = [];
       state.isWhiteMove = !state.isWhiteMove;
     },
-    attackPiece(state, action: PayloadAction<Piece>) {
+    attackByActivePiece(state, action: PayloadAction<Piece>) {
       if (!state.activePiece) return;
       const newPiece: Piece = { ...state.activePiece, id: action.payload.id };
       boardEntityAdapter.removeOne(state, state.activePiece.id);
       boardEntityAdapter.removeOne(state, action.payload.id);
       boardEntityAdapter.addOne(state, newPiece);
       state.activePiece = null;
+      state.availableToMove = [];
+      state.availableToAttack = [];
       state.isWhiteMove = !state.isWhiteMove;
+    },
+    setAvailableToMove(state, action: PayloadAction<string[]>) {
+      state.availableToMove = action.payload;
+    },
+    setAvailableToAttack(state, action: PayloadAction<string[]>) {
+      state.availableToAttack = action.payload;
     },
   },
 });

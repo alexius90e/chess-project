@@ -2,8 +2,12 @@ $tileSize: 12.5%;
 
 $lightTile: #edeed1;
 $lightTileHighlight: #f6f669;
+$lightTileAvailable: #ffffc6;
+$lightTileAttacked: #f66969;
 $darkTile: #779952;
 $darkTileHighlight: #baca2b;
+$darkTileAvailable: #88af5e;
+$darkTileAttacked: #995252;
 
 .tile {
   position: relative;
@@ -24,6 +28,14 @@ $darkTileHighlight: #baca2b;
     &.active {
       background-color: $darkTileHighlight;
     }
+
+    &.available {
+      background-color: $darkTileAvailable;
+    }
+
+    &.attacked {
+      background-color: $darkTileAttacked;
+    }
   }
 
   &_light {
@@ -32,6 +44,14 @@ $darkTileHighlight: #baca2b;
 
     &.active {
       background-color: $lightTileHighlight;
+    }
+
+    &.available {
+      background-color: $lightTileAvailable;
+    }
+
+    &.attacked {
+      background-color: $lightTileAttacked;
     }
   }
 
