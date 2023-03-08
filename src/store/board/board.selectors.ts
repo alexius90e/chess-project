@@ -17,16 +17,13 @@ const whitePieceIds = createSelector(boardState, allPieces, (_, pieces) => {
   return pieces.filter((piece) => piece.team === PieceTeam.White).map((piece) => piece.id);
 });
 
-const blackPieceIds = createSelector(
-  boardState,
-  allPieceIds,
-  whitePieceIds,
-  (_, allIds, whiteIds) => {
-    return allIds.filter((id) => !whiteIds.includes(id as string));
-  }
-);
+const blackPieceIds = createSelector(boardState, allPieceIds, whitePieceIds, (_, all, white) => {
+  return all.filter((id) => !white.includes(id as string));
+});
 
 const activePiece = createSelector(boardState, (state) => state.activePieceData?.piece);
+
+const currentTeam = createSelector(boardState, (state) => state.currentTeam);
 
 const isBoardFlipped = createSelector(boardState, (state) => state.isBoardFlipped);
 
@@ -36,17 +33,18 @@ const boardAxes = createSelector(boardState, (state) => ({
 }));
 
 const availableToAttack = createSelector(boardState, (state) =>
-  state.activePieceData ? state.activePieceData.attacks : []
+  state.activePieceData ? state.activePieceData.attacks : [],
 );
 
 const availableToMove = createSelector(boardState, (state) =>
-  state.activePieceData ? state.activePieceData.moves : []
+  state.activePieceData ? state.activePieceData.moves : [],
 );
 
 export const boardSelectors = {
   pieceById,
   whitePieceIds,
   blackPieceIds,
+  currentTeam,
   allPieceIds,
   activePiece,
   isBoardFlipped,
