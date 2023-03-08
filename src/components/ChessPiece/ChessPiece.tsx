@@ -7,6 +7,7 @@ import { boardSelectors } from '../../store/board/board.selectors';
 import { boardActions } from '../../store/board/board.slice';
 import { Knight } from '../Knight/Knight';
 import { Pawn } from '../Pawn/Pawn';
+import { Rook } from '../Rook/Rook';
 import './ChessPiece.scss';
 
 export const ChessPiece: FC<PieceProps> = ({ piece }) => {
@@ -19,6 +20,8 @@ export const ChessPiece: FC<PieceProps> = ({ piece }) => {
   const isPawn: boolean = piece.type === PieceType.Pawn;
 
   const isKnight: boolean = piece.type === PieceType.Knight;
+
+  const isRook: boolean = piece.type === PieceType.Rook;
 
   const dispatch = useDispatch();
 
@@ -39,7 +42,10 @@ export const ChessPiece: FC<PieceProps> = ({ piece }) => {
     <>
       {isPawn && <Pawn piece={piece} />}
       {isKnight && <Knight piece={piece} />}
-      {!isPawn && !isKnight && <div className={pieceClassName} onClick={handleClick}></div>}
+      {isRook && <Rook piece={piece} />}
+      {!isPawn && !isKnight && !isRook && (
+        <div className={pieceClassName} onClick={handleClick}></div>
+      )}
     </>
   );
 };

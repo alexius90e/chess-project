@@ -74,8 +74,7 @@ export const boardSlice = createSlice({
           id: attacked.id,
           isFirstMove: false,
         };
-        boardEntityAdapter.removeOne(state, activePieceData.piece.id);
-        boardEntityAdapter.removeOne(state, attacked.id);
+        boardEntityAdapter.removeMany(state, [activePieceData.piece.id, attacked.id]);
         boardEntityAdapter.addOne(state, resultPiece);
         state.currentTeam = Number(!Boolean(state.currentTeam));
         state.activePieceData = null;

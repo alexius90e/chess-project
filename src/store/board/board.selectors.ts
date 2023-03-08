@@ -40,6 +40,22 @@ const availableToMove = createSelector(boardState, (state) =>
   state.activePieceData ? state.activePieceData.moves : [],
 );
 
+const boardData = createSelector(
+  boardState,
+  boardAxes,
+  whitePieceIds,
+  blackPieceIds,
+  (state, axes, whiteIds, blackIds) => {
+    return {
+      activePiece: state.activePieceData?.piece,
+      currentTeam: state.currentTeam,
+      boardAxes: axes,
+      whitePieceIds: whiteIds,
+      blackPieceIds: blackIds,
+    };
+  },
+);
+
 export const boardSelectors = {
   pieceById,
   whitePieceIds,
@@ -51,4 +67,5 @@ export const boardSelectors = {
   boardAxes,
   availableToAttack,
   availableToMove,
+  boardData,
 };
