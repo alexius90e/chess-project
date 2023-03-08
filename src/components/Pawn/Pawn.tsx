@@ -7,13 +7,14 @@ import { boardSelectors } from '../../store/board/board.selectors';
 import { boardActions } from '../../store/board/board.slice';
 import './Pawn.scss';
 
-
 export const Pawn: FC<PieceProps> = ({ piece }) => {
   const pawnTeamName: string = piece.team ? 'black' : 'white';
 
   const pieceClassName: string = `pawn pawn-${pawnTeamName}`;
 
   const activePiece: Piece | undefined = useSelector(boardSelectors.activePiece);
+
+  const currentTeam = useSelector(boardSelectors.currentTeam);
 
   const allPieceIds = useSelector(boardSelectors.allPieceIds);
 
@@ -28,12 +29,13 @@ export const Pawn: FC<PieceProps> = ({ piece }) => {
   function handleClick(): void {
     const isTheSamePiece = activePiece && activePiece.id === piece.id;
     const isUnderAttack = activePiece && activePiece.team !== piece.team;
+    const isTeamTurn = currentTeam === piece.team;
 
     if (isTheSamePiece) {
       dispatch(boardActions.resetActivePiece());
     } else if (isUnderAttack) {
       dispatch(boardActions.attackByActivePiece(piece));
-    } else {
+    } else if (isTeamTurn) {
       dispatch(
         boardActions.setActivePiece({
           piece,

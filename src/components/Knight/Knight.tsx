@@ -34,7 +34,6 @@ export const Knight: FC<PieceProps> = ({ piece }) => {
     } else if (isUnderAttack) {
       dispatch(boardActions.attackByActivePiece(piece));
     } else if (isTeamTurn) {
-      console.log(checkMoves());
       dispatch(
         boardActions.setActivePiece({
           piece,
