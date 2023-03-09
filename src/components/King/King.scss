@@ -1,0 +1,13 @@
+@import '../../scss/chess-piece.mixin.scss';
+
+.king {
+  @include chessPiece;
+
+  &-white {
+    background-image: url(../../../public/assets/wk.png);
+  }
+
+  &-black {
+    background-image: url(../../../public/assets/bk.png);
+  }
+}
