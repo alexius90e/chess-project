@@ -5,6 +5,7 @@ import { PieceType } from '../../models/piece-type.enum';
 import { Piece } from '../../models/piece.interface';
 import { boardSelectors } from '../../store/board/board.selectors';
 import { boardActions } from '../../store/board/board.slice';
+import { Bishop } from '../Bishop/Bishop';
 import { Knight } from '../Knight/Knight';
 import { Pawn } from '../Pawn/Pawn';
 import { Rook } from '../Rook/Rook';
@@ -22,6 +23,8 @@ export const ChessPiece: FC<PieceProps> = ({ piece }) => {
   const isKnight: boolean = piece.type === PieceType.Knight;
 
   const isRook: boolean = piece.type === PieceType.Rook;
+
+  const isBishop: boolean = piece.type === PieceType.Bishop;
 
   const dispatch = useDispatch();
 
@@ -43,7 +46,9 @@ export const ChessPiece: FC<PieceProps> = ({ piece }) => {
       {isPawn && <Pawn piece={piece} />}
       {isKnight && <Knight piece={piece} />}
       {isRook && <Rook piece={piece} />}
-      {!isPawn && !isKnight && !isRook && (
+
+      {isBishop && <Bishop piece={piece} />}
+      {!isPawn && !isKnight && !isRook && !isBishop && (
         <div className={pieceClassName} onClick={handleClick}></div>
       )}
     </>

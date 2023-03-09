@@ -1,0 +1,13 @@
+@import '../../scss/chess-piece.mixin.scss';
+
+.bishop {
+  @include chessPiece;
+
+  &-white {
+    background-image: url(../../../public/assets/wb.png);
+  }
+
+  &-black {
+    background-image: url(../../../public/assets/bb.png);
+  }
+}
