@@ -8,6 +8,7 @@ import { boardActions } from '../../store/board/board.slice';
 import { Bishop } from '../Bishop/Bishop';
 import { Knight } from '../Knight/Knight';
 import { Pawn } from '../Pawn/Pawn';
+import { Queen } from '../Queen/Queen';
 import { Rook } from '../Rook/Rook';
 import './ChessPiece.scss';
 
@@ -25,6 +26,8 @@ export const ChessPiece: FC<PieceProps> = ({ piece }) => {
   const isRook: boolean = piece.type === PieceType.Rook;
 
   const isBishop: boolean = piece.type === PieceType.Bishop;
+
+  const isQueen: boolean = piece.type === PieceType.Queen;
 
   const dispatch = useDispatch();
 
@@ -46,9 +49,10 @@ export const ChessPiece: FC<PieceProps> = ({ piece }) => {
       {isPawn && <Pawn piece={piece} />}
       {isKnight && <Knight piece={piece} />}
       {isRook && <Rook piece={piece} />}
-
       {isBishop && <Bishop piece={piece} />}
-      {!isPawn && !isKnight && !isRook && !isBishop && (
+      {isQueen && <Queen piece={piece} />}
+
+      {!isPawn && !isKnight && !isRook && !isBishop && !isQueen && (
         <div className={pieceClassName} onClick={handleClick}></div>
       )}
     </>
